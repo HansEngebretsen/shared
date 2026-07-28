@@ -19,5 +19,5 @@ hans-footer:not(:defined) {
 <hans-footer></hans-footer>
 
 <!-- Version with GitHub source link -->
-<hans-footer github-url="https://github.com/haaans/score"></hans-footer>
+<hans-footer github-url="https://github.com/HansEngebretsen/score"></hans-footer>
 ```
