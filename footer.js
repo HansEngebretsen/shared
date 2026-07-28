@@ -46,6 +46,7 @@ class HansFooter extends HTMLElement {
       baseUrl = './';
     }
     const svgUrl = baseUrl + 'hans-logo.svg';
+    const profileUrl = baseUrl + 'hans-profile-small.jpg';
     const githubUrl = this.getAttribute('github-url');
 
     const githubHtml = githubUrl
@@ -87,13 +88,35 @@ class HansFooter extends HTMLElement {
           cursor: pointer;
         }
 
-        .logo {
+        .logo-wrapper {
+          position: relative;
           width: 24px;
           height: 24px;
-          opacity: 0.4;
-          transition: opacity 0.2s ease-in-out;
-          filter: var(--hans-footer-logo-filter, invert(0));
+        }
+
+        .logo {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 24px;
+          height: 24px;
           display: block;
+          transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .default-logo {
+          opacity: 0.4;
+          filter: var(--hans-footer-logo-filter, invert(0));
+        }
+
+        .profile-pic {
+          opacity: 0;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+          box-sizing: border-box;
+          object-fit: cover;
+          transform: scale(0.9);
         }
 
         .text-line {
@@ -130,16 +153,25 @@ class HansFooter extends HTMLElement {
         }
 
         /* Hover effects using :has() for true group-hover recreation */
-        .footer-container:has(.logo-link:hover) .logo {
-          opacity: 0.6;
+        .footer-container:has(.logo-link:hover) .default-logo {
+          opacity: 0;
+          transform: scale(0.9);
         }
-        .footer-container:has(.logo-link:hover) .about-link {
-          opacity: 0.5;
+        .footer-container:has(.logo-link:hover) .profile-pic {
+          opacity: 1;
+          transform: scale(1);
         }
 
-        .footer-container:has(.about-link:hover) .logo {
-          opacity: 0.6;
+        .footer-container:has(.about-link:hover) .default-logo {
+          opacity: 0;
+          transform: scale(0.9);
         }
+        .footer-container:has(.about-link:hover) .profile-pic {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .footer-container:has(.logo-link:hover) .about-link,
         .footer-container:has(.about-link:hover) .about-link {
           opacity: 0.5;
         }
@@ -151,7 +183,10 @@ class HansFooter extends HTMLElement {
       <footer class="footer">
         <div class="footer-container">
           <a href="https://haaans.com/about/" target="_blank" rel="noopener noreferrer" class="logo-link">
-            <img class="logo" alt="Hans Logo" src="${this.escapeHtml(svgUrl)}">
+            <div class="logo-wrapper">
+              <img class="logo default-logo" alt="Hans Logo" src="${this.escapeHtml(svgUrl)}">
+              <img class="logo profile-pic" alt="Hans Profile" src="${this.escapeHtml(profileUrl)}">
+            </div>
           </a>
           <p class="text-line">
             <a href="https://haaans.com/about/" target="_blank" rel="noopener noreferrer" class="about-link">made by hans</a>
