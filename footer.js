@@ -58,21 +58,13 @@ class HansFooter extends HTMLElement {
         :host {
           display: block;
           margin-top: auto;
-          width: 100%;
-          box-sizing: border-box;
           min-height: 76px; /* Reserve height to prevent Cumulative Layout Shift */
         }
         
         .footer {
-          padding-top: 2rem;
-          padding-bottom: calc(6px + var(--safe-bottom, 0px));
-          padding-left: 1rem;
-          padding-right: 1rem;
+          padding: 2rem 1rem calc(6px + var(--safe-bottom, 0px));
           display: flex;
           justify-content: center;
-          align-items: center;
-          width: 100%;
-          box-sizing: border-box;
         }
 
         .footer-container {
@@ -96,7 +88,6 @@ class HansFooter extends HTMLElement {
 
         .logo {
           position: absolute;
-          display: block;
           transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
 
@@ -124,14 +115,11 @@ class HansFooter extends HTMLElement {
         }
 
         .text-line {
-          font-size: 0.65rem;
-          font-weight: 500;
+          font: 500 0.65rem/1.4 system-ui, -apple-system, sans-serif;
           letter-spacing: 0.05em;
           color: var(--hans-footer-color, rgb(68, 68, 65));
-          font-family: system-ui, -apple-system, sans-serif;
           margin: 0;
           text-align: center;
-          line-height: 1.4;
         }
 
         /* Set default opacity of 0.5 on the spans and links inside the text line */
@@ -145,16 +133,11 @@ class HansFooter extends HTMLElement {
 
         .about-link,
         .github-link {
-          color: var(--hans-footer-color, rgb(68, 68, 65));
+          color: inherit;
           text-decoration: underline;
         }
 
-        .hans-link {
-          display: inline-block;
-        }
-
         .github-section {
-          display: inline-block;
           white-space: nowrap;
         }
 
@@ -180,14 +163,9 @@ class HansFooter extends HTMLElement {
         }
 
         /* Increase contrast of the links on hover */
-        .hans-link:hover {
-          opacity: 1;
-          text-decoration: underline;
-        }
-
+        .hans-link:hover,
         .github-link:hover {
           opacity: 1;
-          text-decoration: underline;
         }
       </style>
       <footer class="footer">
