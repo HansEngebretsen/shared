@@ -17,6 +17,38 @@ class HansFooter extends HTMLElement {
     this.render();
   }
 
+  adjustContrast() {
+    if (this.isDarkBackground()) {
+      const footer = this.shadowRoot.querySelector('.footer');
+      if (footer) {
+        footer.classList.add('auto-dark');
+      }
+    }
+  }
+
+  isDarkBackground() {
+    let el = this;
+    let bg = 'rgb(255, 255, 255)';
+    while (el) {
+      const style = window.getComputedStyle(el);
+      if (style && style.backgroundColor && style.backgroundColor !== 'rgba(0, 0, 0, 0)' && style.backgroundColor !== 'transparent') {
+        bg = style.backgroundColor;
+        break;
+      }
+      el = el.parentElement || (el.getRootNode() && el.getRootNode().host);
+    }
+    
+    const match = bg.match(/\d+/g);
+    if (match && match.length >= 3) {
+      const r = parseInt(match[0], 10);
+      const g = parseInt(match[1], 10);
+      const b = parseInt(match[2], 10);
+      const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      return yiq < 128;
+    }
+    return false;
+  }
+
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'github-url' && oldValue !== newValue) {
       this.render();
@@ -67,6 +99,11 @@ class HansFooter extends HTMLElement {
           padding: 2rem 1rem calc(6px + var(--safe-bottom, 0px));
           display: flex;
           justify-content: center;
+        }
+
+        .footer.auto-dark {
+          --hans-footer-logo-filter: invert(1);
+          --hans-footer-color: rgb(240, 240, 240);
         }
 
         .footer-container {
@@ -185,6 +222,7 @@ class HansFooter extends HTMLElement {
         </div>
       </footer>
     `;
+    requestAnimationFrame(() => this.adjustContrast());
   }
 
   escapeHtml(str) {
