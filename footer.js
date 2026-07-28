@@ -50,7 +50,7 @@ class HansFooter extends HTMLElement {
     const githubUrl = this.getAttribute('github-url');
 
     const githubHtml = githubUrl
-      ? `<span class="github-section"><span class="sep">|</span> <span class="github-text-part">source on </span><a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github ↗</a></span>`
+      ? `<span class="github-section"><span class="sep">|</span> <span class="github-text-part">source on </span><a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github</a></span>`
       : '';
 
     this.shadowRoot.innerHTML = `
