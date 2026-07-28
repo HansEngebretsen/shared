@@ -143,11 +143,7 @@ class HansFooter extends HTMLElement {
           opacity: 0.5;
         }
 
-        .about-link {
-          color: var(--hans-footer-color, rgb(68, 68, 65));
-          text-decoration: none;
-        }
-
+        .about-link,
         .github-link {
           color: var(--hans-footer-color, rgb(68, 68, 65));
           text-decoration: underline;
