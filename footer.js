@@ -50,7 +50,7 @@ class HansFooter extends HTMLElement {
     const githubUrl = this.getAttribute('github-url');
 
     const githubHtml = githubUrl
-      ? `<span class="github-section"><span class="sep">|</span> source on <a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github</a> ↗</span>`
+      ? `<span class="github-section"><span class="sep">|</span> source on <a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github ↗</a></span>`
       : '';
 
     this.shadowRoot.innerHTML = `
@@ -176,7 +176,7 @@ class HansFooter extends HTMLElement {
           transform: scale(1);
         }
 
-        .github-section:has(.github-link:hover) {
+        .github-link:hover {
           opacity: 0.8;
         }
       </style>
