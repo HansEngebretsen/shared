@@ -58,7 +58,7 @@ class HansFooter extends HTMLElement {
           display: block;
           margin-top: auto;
           min-height: 76px; /* Reserve height to prevent Cumulative Layout Shift */
-          --hans-footer-color: inherit;
+          --hans-footer-color: currentColor;
         }
         
         .footer {
@@ -91,7 +91,7 @@ class HansFooter extends HTMLElement {
           width: 24px;
           height: 24px;
           opacity: 0.4;
-          fill: var(--hans-footer-color, inherit);
+          fill: var(--hans-footer-color);
         }
 
         .profile-pic {
@@ -111,7 +111,7 @@ class HansFooter extends HTMLElement {
         .text-line {
           font: 500 0.65rem/1.4 system-ui, -apple-system, sans-serif;
           letter-spacing: 0.05em;
-          color: var(--hans-footer-color, inherit);
+          color: var(--hans-footer-color);
           margin: 0;
           text-align: center;
         }
