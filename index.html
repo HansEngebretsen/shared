@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hans Footer Demo</title>
+  <style>
+    /* Premium Minimalist Demo Styling */
+    :root {
+      --bg-color: #f7f7f5;
+      --text-color: #2c2c2a;
+      --card-bg: #ffffff;
+      --border-color: #e5e5e0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --border-color: #2d2d2d;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    p.subtitle {
+      font-size: 1rem;
+      opacity: 0.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .demo-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      text-align: left;
+    }
+
+    .demo-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.5;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    /* -------------------------------------------------------------
+       CRITICAL: FOUC (Flash of Unstyled Content) / Layout Shift CSS.
+       Reserves height and block layout for the custom element before 
+       the JS file loads and registers it.
+       ------------------------------------------------------------- */
+    hans-footer:not(:defined) {
+      display: block;
+      min-height: 76px;
+    }
+  </style>
+
+  <!-- Import the Custom Web Component -->
+  <script src="./footer.js" defer></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>&lt;hans-footer&gt;</h1>
+    <p class="subtitle">A lightweight, self-contained web component footer.</p>
+
+    <!-- Theme 1: Light Theme -->
+    <div class="demo-box" style="background-color: #ffffff; color: #1c1c1a; border-color: #e5e5e0;">
+      <div class="demo-label" style="color: #888880; border-color: #e5e5e0;">Light Theme</div>
+      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">
+        Default look on a light background.
+      </p>
+      <hans-footer></hans-footer>
+    </div>
+
+    <!-- Theme 2: Dark Theme (Using CSS variables to invert logo & text) -->
+    <div class="demo-box" style="background-color: #121212; color: #e0e0e0; border-color: #2d2d2d;">
+      <div class="demo-label" style="color: #888888; border-color: #2d2d2d;">Dark Theme</div>
+      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">
+        Dark mode with custom CSS variables applied to the custom element.
+      </p>
+      <style>
+        .dark-footer {
+          --hans-footer-color: #e0e0e0;
+          --hans-footer-logo-filter: invert(1);
+        }
+      </style>
+      <hans-footer class="dark-footer" github-url="https://github.com/haaans/score"></hans-footer>
+    </div>
+
+    <!-- Theme 3: Warm Sand Theme -->
+    <div class="demo-box" style="background-color: #faf6ef; color: #433e3a; border-color: #ebdcd0;">
+      <div class="demo-label" style="color: #8a7a6e; border-color: #ebdcd0;">Warm Sand Theme</div>
+      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">
+        Earth-toned styled background using custom colors.
+      </p>
+      <style>
+        .warm-footer {
+          --hans-footer-color: #5c5246;
+        }
+      </style>
+      <hans-footer class="warm-footer" github-url="https://github.com/haaans/score"></hans-footer>
+    </div>
+
+    <!-- Theme 4: Muted Indigo / Cool Slate Theme -->
+    <div class="demo-box" style="background-color: #1e1b4b; color: #e0e7ff; border-color: #312e81;">
+      <div class="demo-label" style="color: #818cf8; border-color: #312e81;">Cool Indigo Theme</div>
+      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">
+        Deep slate / indigo layout.
+      </p>
+      <style>
+        .cool-footer {
+          --hans-footer-color: #c7d2fe;
+          --hans-footer-logo-filter: invert(1) sepia(20%) saturate(1000%) hue-rotate(200deg);
+        }
+      </style>
+      <hans-footer class="cool-footer"></hans-footer>
+    </div>
+  </div>
+
+</body>
+</html>
