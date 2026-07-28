@@ -64,7 +64,7 @@ class HansFooter extends HTMLElement {
         
         .footer {
           padding-top: 2rem;
-          padding-bottom: var(--safe-bottom, 0px);
+          padding-bottom: calc(6px + var(--safe-bottom, 0px));
           padding-left: 1rem;
           padding-right: 1rem;
           display: flex;
