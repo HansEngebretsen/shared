@@ -144,7 +144,8 @@ class HansFooter extends HTMLElement {
           transition: opacity 0.2s ease-in-out;
         }
 
-        .about-link {
+        .about-link,
+        .github-link {
           color: var(--hans-footer-color, rgb(68, 68, 65));
           text-decoration: none;
         }
@@ -160,11 +161,6 @@ class HansFooter extends HTMLElement {
 
         .sep {
           margin: 0 4px;
-        }
-
-        .github-link {
-          color: var(--hans-footer-color, rgb(68, 68, 65));
-          text-decoration: underline;
         }
 
         /* Hover States */
@@ -184,14 +180,11 @@ class HansFooter extends HTMLElement {
           transform: scale(1);
         }
 
-        /* Increase contrast of the links on hover (matches logo going 0.4 -> 0.6, here going 0.5 -> 0.8) */
-        .hans-link:hover {
-          opacity: 0.8;
-          text-decoration: underline;
-        }
-
+        /* Increase contrast of the links on hover */
+        .hans-link:hover,
         .github-link:hover {
           opacity: 1;
+          text-decoration: underline;
         }
       </style>
       <footer class="footer">
