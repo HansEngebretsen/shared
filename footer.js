@@ -17,38 +17,6 @@ class HansFooter extends HTMLElement {
     this.render();
   }
 
-  adjustContrast() {
-    if (this.isDarkBackground()) {
-      const footer = this.shadowRoot.querySelector('.footer');
-      if (footer) {
-        footer.classList.add('auto-dark');
-      }
-    }
-  }
-
-  isDarkBackground() {
-    let el = this;
-    let bg = 'rgb(255, 255, 255)';
-    while (el) {
-      const style = window.getComputedStyle(el);
-      if (style && style.backgroundColor && style.backgroundColor !== 'rgba(0, 0, 0, 0)' && style.backgroundColor !== 'transparent') {
-        bg = style.backgroundColor;
-        break;
-      }
-      el = el.parentElement || (el.getRootNode() && el.getRootNode().host);
-    }
-    
-    const match = bg.match(/\d+/g);
-    if (match && match.length >= 3) {
-      const r = parseInt(match[0], 10);
-      const g = parseInt(match[1], 10);
-      const b = parseInt(match[2], 10);
-      const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-      return yiq < 128;
-    }
-    return false;
-  }
-
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'github-url' && oldValue !== newValue) {
       this.render();
@@ -91,8 +59,7 @@ class HansFooter extends HTMLElement {
           display: block;
           margin-top: auto;
           min-height: 76px; /* Reserve height to prevent Cumulative Layout Shift */
-          --hans-footer-logo-filter: invert(0);
-          --hans-footer-color: rgb(68, 68, 65);
+          --hans-footer-color: currentColor;
         }
         
         .footer {
@@ -101,22 +68,11 @@ class HansFooter extends HTMLElement {
           justify-content: center;
         }
 
-        .footer.auto-dark {
-          --hans-footer-logo-filter: invert(1);
-          --hans-footer-color: rgb(240, 240, 240);
-        }
-
         .footer-container {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 6px;
-        }
-
-        .logo-link {
-          display: inline-block;
-          line-height: 0;
-          cursor: pointer;
         }
 
         .logo-wrapper {
@@ -136,7 +92,9 @@ class HansFooter extends HTMLElement {
           width: 24px;
           height: 24px;
           opacity: 0.4;
-          filter: var(--hans-footer-logo-filter);
+          background-color: var(--hans-footer-color);
+          -webkit-mask: url("${this.escapeHtml(svgUrl)}") no-repeat center/contain;
+          mask: url("${this.escapeHtml(svgUrl)}") no-repeat center/contain;
         }
 
         .profile-pic {
@@ -211,7 +169,7 @@ class HansFooter extends HTMLElement {
         <div class="footer-container">
           <a href="https://haaans.com/about/" target="_blank" rel="noopener noreferrer" class="logo-link">
             <div class="logo-wrapper">
-              <img class="logo default-logo" alt="Hans Logo" src="${this.escapeHtml(svgUrl)}">
+              <div class="logo default-logo"></div>
               <img class="logo profile-pic" alt="Hans Profile" src="${this.escapeHtml(profileUrl)}">
             </div>
           </a>
@@ -222,7 +180,6 @@ class HansFooter extends HTMLElement {
         </div>
       </footer>
     `;
-    requestAnimationFrame(() => this.adjustContrast());
   }
 
   escapeHtml(str) {
