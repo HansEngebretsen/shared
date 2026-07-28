@@ -90,33 +90,37 @@ class HansFooter extends HTMLElement {
 
         .logo-wrapper {
           position: relative;
-          width: 24px;
-          height: 24px;
+          width: 30px;
+          height: 30px;
         }
 
         .logo {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 24px;
-          height: 24px;
           display: block;
           transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
 
         .default-logo {
+          top: 3px;
+          left: 3px;
+          width: 24px;
+          height: 24px;
           opacity: 0.4;
           filter: var(--hans-footer-logo-filter, invert(0));
         }
 
         .profile-pic {
+          top: 0;
+          left: 0;
+          width: 30px;
+          height: 30px;
           opacity: 0;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.4);
           box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
           box-sizing: border-box;
           object-fit: cover;
-          transform: scale(0.9);
+          transform: scale(0.8);
         }
 
         .text-line {
@@ -128,18 +132,21 @@ class HansFooter extends HTMLElement {
           margin: 0;
           text-align: center;
           line-height: 1.4;
+          opacity: 0.3;
+          transition: opacity 0.2s ease-in-out;
+        }
+
+        /* Hovering the text line itself explicitly increases its opacity */
+        .text-line:hover {
+          opacity: 0.5;
         }
 
         .about-link {
           color: var(--hans-footer-color, rgb(68, 68, 65));
           text-decoration: none;
-          opacity: 0.3;
-          transition: opacity 0.2s ease-in-out;
         }
 
         .github-section {
-          opacity: 0.3;
-          transition: opacity 0.2s ease-in-out;
           white-space: nowrap;
         }
 
@@ -152,32 +159,25 @@ class HansFooter extends HTMLElement {
           text-decoration: underline;
         }
 
-        /* Hover effects using :has() for true group-hover recreation */
-        .footer-container:has(.logo-link:hover) .default-logo {
-          opacity: 0;
-          transform: scale(0.9);
-        }
-        .footer-container:has(.logo-link:hover) .profile-pic {
-          opacity: 1;
-          transform: scale(1);
+        /* Hover States */
+
+        /* 1. Hovering the logo itself: Only increases the default logo opacity */
+        .logo-link:hover .default-logo {
+          opacity: 0.6;
         }
 
-        .footer-container:has(.about-link:hover) .default-logo {
+        /* 2. Hovering the 'hans' link: transitions the logo to the 30px profile photo */
+        .footer-container:has(.hans-link:hover) .default-logo {
           opacity: 0;
-          transform: scale(0.9);
+          transform: scale(0.8);
         }
-        .footer-container:has(.about-link:hover) .profile-pic {
+        .footer-container:has(.hans-link:hover) .profile-pic {
           opacity: 1;
           transform: scale(1);
-        }
-
-        .footer-container:has(.logo-link:hover) .about-link,
-        .footer-container:has(.about-link:hover) .about-link {
-          opacity: 0.5;
         }
 
         .github-section:has(.github-link:hover) {
-          opacity: 0.5;
+          opacity: 0.8;
         }
       </style>
       <footer class="footer">
@@ -189,7 +189,7 @@ class HansFooter extends HTMLElement {
             </div>
           </a>
           <p class="text-line">
-            <a href="https://haaans.com/about/" target="_blank" rel="noopener noreferrer" class="about-link">made by hans</a>
+            <span>made by </span><a href="https://haaans.com/about/" target="_blank" rel="noopener noreferrer" class="about-link hans-link">hans</a>
             ${githubHtml}
           </p>
         </div>
