@@ -137,11 +137,8 @@ class HansFooter extends HTMLElement {
         /* Set default opacity of 0.5 on the spans and links inside the text line */
         .text-line > span,
         .about-link,
-        .sep,
-        .github-text-part,
-        .github-link {
+        .sep {
           opacity: 0.5;
-          transition: opacity 0.2s ease-in-out;
         }
 
         .about-link,
@@ -181,7 +178,20 @@ class HansFooter extends HTMLElement {
         }
 
         /* Increase contrast of the links on hover */
-        .hans-link:hover,
+        .hans-link:hover {
+          opacity: 1;
+          text-decoration: underline;
+        }
+
+        .github-section:has(.github-link:hover) {
+          opacity: 1;
+        }
+
+        .github-section:has(.github-link:hover) .github-text-part,
+        .github-section:has(.github-link:hover) .sep {
+          opacity: 0.5;
+        }
+
         .github-link:hover {
           opacity: 1;
           text-decoration: underline;
