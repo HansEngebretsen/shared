@@ -58,6 +58,7 @@ class HansFooter extends HTMLElement {
           display: block;
           margin-top: auto;
           min-height: 76px; /* Reserve height to prevent Cumulative Layout Shift */
+          --hans-footer-color: inherit;
         }
         
         .footer {
