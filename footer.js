@@ -191,7 +191,7 @@ class HansFooter extends HTMLElement {
         }
 
         .github-link:hover {
-          opacity: 0.8;
+          opacity: 1;
         }
       </style>
       <footer class="footer">
