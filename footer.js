@@ -132,12 +132,6 @@ class HansFooter extends HTMLElement {
           margin: 0;
           text-align: center;
           line-height: 1.4;
-          opacity: 0.3;
-          transition: opacity 0.2s ease-in-out;
-        }
-
-        /* Hovering the text line itself explicitly increases its opacity */
-        .text-line:hover {
           opacity: 0.5;
         }
 
