@@ -125,9 +125,14 @@ class HansFooter extends HTMLElement {
           opacity: 0.5;
         }
 
+        .logo-link,
         .about-link,
         .github-link {
           color: inherit;
+        }
+
+        .about-link,
+        .github-link {
           text-decoration: underline;
         }
 
