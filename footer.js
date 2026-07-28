@@ -50,7 +50,7 @@ class HansFooter extends HTMLElement {
     const githubUrl = this.getAttribute('github-url');
 
     const githubHtml = githubUrl
-      ? `<span class="github-section"><span class="sep">|</span> source on <a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github ↗</a></span>`
+      ? `<span class="github-section"><span class="sep">|</span> <span class="github-text-part">source on </span><a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github ↗</a></span>`
       : '';
 
     this.shadowRoot.innerHTML = `
@@ -132,7 +132,16 @@ class HansFooter extends HTMLElement {
           margin: 0;
           text-align: center;
           line-height: 1.4;
+        }
+
+        /* Set default opacity of 0.5 on the spans and links inside the text line */
+        .text-line > span,
+        .about-link,
+        .sep,
+        .github-text-part,
+        .github-link {
           opacity: 0.5;
+          transition: opacity 0.2s ease-in-out;
         }
 
         .about-link {
@@ -140,7 +149,12 @@ class HansFooter extends HTMLElement {
           text-decoration: none;
         }
 
+        .hans-link {
+          display: inline-block;
+        }
+
         .github-section {
+          display: inline-block;
           white-space: nowrap;
         }
 
@@ -155,7 +169,7 @@ class HansFooter extends HTMLElement {
 
         /* Hover States */
 
-        /* 1. Hovering the logo itself: Only increases the default logo opacity */
+        /* 1. Hovering the logo itself: Only increases the default logo opacity to 0.6 */
         .logo-link:hover .default-logo {
           opacity: 0.6;
         }
@@ -168,6 +182,12 @@ class HansFooter extends HTMLElement {
         .footer-container:has(.hans-link:hover) .profile-pic {
           opacity: 1;
           transform: scale(1);
+        }
+
+        /* Increase contrast of the links on hover (matches logo going 0.4 -> 0.6, here going 0.5 -> 0.8) */
+        .hans-link:hover {
+          opacity: 0.8;
+          text-decoration: underline;
         }
 
         .github-link:hover {
