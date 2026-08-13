@@ -21,3 +21,21 @@ hans-footer:not(:defined) {
 <!-- Version with GitHub source link (Only if specifically requested/configured) -->
 <hans-footer github-url="https://github.com/HansEngebretsen/"></hans-footer>
 ```
+
+## `logo` attribute
+
+Control which logo is displayed using the `logo` attribute:
+
+| Value | Behavior |
+|-------|----------|
+| *(omitted)* or `"default"` | Shows the "he" SVG logo. Hovering "hans" morphs it into the profile photo. |
+| `"he"` | Shows the "he" SVG logo only. No profile photo or hover transition. |
+| `"profile"` | Shows the profile photo only. |
+| `"none"` | No logo — text only. |
+
+```html
+<hans-footer logo="default"></hans-footer>
+<hans-footer logo="he"></hans-footer>
+<hans-footer logo="profile"></hans-footer>
+<hans-footer logo="none"></hans-footer>
+```

@@ -79,7 +79,6 @@ class HansFooter extends HTMLElement {
           padding: 2rem 1rem calc(6px + var(--safe-bottom, 0px));
           display: flex;
           justify-content: center;
-          mix-blend-mode: difference;
         }
 
         .footer-container {
@@ -107,6 +106,7 @@ class HansFooter extends HTMLElement {
           height: 24px;
           opacity: 0.4;
           fill: var(--hans-footer-color);
+          mix-blend-mode: difference;
         }
 
         .profile-pic {
@@ -121,8 +121,6 @@ class HansFooter extends HTMLElement {
           box-sizing: border-box;
           object-fit: cover;
           transform: scale(0.8);
-          isolation: isolate;
-          mix-blend-mode: normal;
         }
 
         .text-line {
@@ -131,6 +129,7 @@ class HansFooter extends HTMLElement {
           color: var(--hans-footer-color);
           margin: 0;
           text-align: center;
+          mix-blend-mode: difference;
         }
 
         /* Set default opacity of 0.5 on the spans and links inside the text line */
@@ -189,7 +188,7 @@ class HansFooter extends HTMLElement {
           display: none;
         }
         .logo-state-profile .profile-pic {
-          opacity: 0.5;
+          opacity: 1;
           transform: scale(1);
         }
 
