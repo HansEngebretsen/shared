@@ -5,7 +5,7 @@
  */
 class HansFooter extends HTMLElement {
   static get observedAttributes() {
-    return ['github-url', 'logo'];
+    return ['github-url', 'logo', 'padding'];
   }
 
   constructor() {
@@ -18,7 +18,7 @@ class HansFooter extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if ((name === 'github-url' || name === 'logo') && oldValue !== newValue) {
+    if ((name === 'github-url' || name === 'logo' || name === 'padding') && oldValue !== newValue) {
       this.render();
     }
   }
@@ -46,6 +46,7 @@ class HansFooter extends HTMLElement {
       baseUrl = './';
     }
     const logoVal = this.getAttribute('logo') || 'default';
+    const noPadding = this.getAttribute('padding') === 'none';
     const profileUrl = baseUrl + 'hans-profile-small.jpg';
     const githubUrl = this.getAttribute('github-url');
 
@@ -79,6 +80,10 @@ class HansFooter extends HTMLElement {
           padding: 2rem 1rem calc(6px + var(--safe-bottom, 0px));
           display: flex;
           justify-content: center;
+        }
+
+        .footer.no-padding {
+          padding: 0;
         }
 
         .footer-container {
@@ -198,7 +203,7 @@ class HansFooter extends HTMLElement {
           opacity: 1;
         }
       </style>
-      <footer class="footer">
+      <footer class="footer${noPadding ? ' no-padding' : ''}">
         <div class="footer-container logo-state-${this.escapeHtml(logoVal)}">
           ${logoHtml}
           <p class="text-line">

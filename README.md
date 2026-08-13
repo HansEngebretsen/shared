@@ -39,3 +39,11 @@ Control which logo is displayed using the `logo` attribute:
 <hans-footer logo="profile"></hans-footer>
 <hans-footer logo="none"></hans-footer>
 ```
+
+## `padding` attribute
+
+By default the footer includes generous top/bottom padding. Set `padding="none"` to remove it entirely — useful when the footer is embedded inside a container that already handles its own spacing.
+
+```html
+<hans-footer padding="none"></hans-footer>
+```
