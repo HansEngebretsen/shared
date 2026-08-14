@@ -82,9 +82,45 @@
        Reserves height and block layout for the custom element before 
        the JS file loads and registers it.
        ------------------------------------------------------------- */
-    hans-footer:not(:defined) {
+    hans-footer:not(:defined):not([padding="none"]) {
       display: block;
       min-height: 76px;
+    }
+
+    /* --- Copy prompt button (top right) --- */
+    .copy-prompt-btn {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      font: 600 0.75rem/1 inherit;
+      letter-spacing: 0.03em;
+      color: var(--text-color);
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .copy-prompt-btn:hover {
+      background-color: var(--bg-color);
+    }
+
+    .copy-prompt-btn.copied {
+      border-color: currentColor;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 600px) {
+      .copy-prompt-btn {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.65rem;
+      }
     }
   </style>
 
@@ -92,6 +128,8 @@
   <script src="./footer.js" defer></script>
 </head>
 <body>
+
+  <button type="button" class="copy-prompt-btn" id="copy-prompt">Copy prompt</button>
 
   <div class="container">
     <h1>&lt;hans-footer&gt;</h1>
@@ -132,7 +170,112 @@
       </p>
       <hans-footer logo="none"></hans-footer>
     </div>
+
+    <!-- Theme 5: Static text color (blending disabled) -->
+    <div class="demo-box" style="background-color: #ffffff; color: #1c1c1a; border-color: #e5e5e0;">
+      <div class="demo-label" style="color: #888880; border-color: #e5e5e0;">Static Color (text-color="#c2410c")</div>
+      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">
+        One static color used in both light and dark mode. Blending is disabled.
+      </p>
+      <hans-footer text-color="#c2410c"></hans-footer>
+    </div>
+
+    <!-- Theme 6: Separate light/dark static colors -->
+    <div class="demo-box">
+      <div class="demo-label">Static Light/Dark (text-color-light + text-color-dark)</div>
+      <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem;">
+        Follows your OS color scheme — toggle light/dark to see it switch.
+      </p>
+      <hans-footer text-color-light="#2c2c2a" text-color-dark="#e0e0e0" github-url="https://github.com/HansEngebretsen/"></hans-footer>
+    </div>
   </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('copy-prompt');
+      let resetTimer;
+
+      const prompt = `Add the shared <hans-footer> web component to this site.
+
+1. Requirement: a background color MUST be declared somewhere in the footer's parent
+   lineage (html, body, or a wrapping container). By default the footer derives its text
+   color from whatever is painted behind it using mix-blend-mode: difference, so it always
+   has contrast — but with no painted background there is nothing to blend against and it
+   can appear invisible. If you cannot guarantee a painted background, set the text-color
+   attribute instead.
+
+2. Add this CSS rule to the stylesheet to prevent layout shift (CLS):
+
+   hans-footer:not(:defined):not([padding="none"]) {
+     display: block;
+     min-height: 76px;
+   }
+
+3. Include the script in the <head>:
+
+   <script src="https://haaans.com/shared/footer.js" defer><\/script>
+
+4. Insert the component where the footer should display. Use the plain default unless the
+   GitHub link was specifically requested:
+
+   <hans-footer><\/hans-footer>
+   <hans-footer github-url="https://github.com/HansEngebretsen/"><\/hans-footer>
+
+Attributes:
+
+github-url  — optional. Adds a "source on github" link.
+
+logo        — which logo to show.
+              omitted / "default" : "he" SVG logo, morphs to the profile photo on hovering "hans"
+              "he"                : "he" SVG logo only, no hover transition
+              "profile"           : profile photo only
+              "none"              : text only, no logo
+
+padding     — omitted keeps the generous top/bottom padding.
+              "none" removes all padding, for containers that handle their own spacing.
+              "none" also drops the reserved min-height so the footer collapses to its
+              content height (hence the :not([padding="none"]) in the CLS rule above).
+
+text-color / text-color-light / text-color-dark — text and logo color.
+              all omitted        : AUTO (recommended). Blends against the backdrop for
+                                   automatic contrast on any background.
+              text-color         : one static color for both light and dark mode; disables blending
+              text-color-light /
+              text-color-dark    : per-scheme static colors, switched on prefers-color-scheme.
+                                   If only one is given it is used for both. Either one
+                                   overrides text-color for its own scheme.
+
+Examples:
+
+  <hans-footer><\/hans-footer>
+  <hans-footer logo="none" padding="none"><\/hans-footer>
+  <hans-footer text-color="#2c2c2a"><\/hans-footer>
+  <hans-footer text-color-light="#2c2c2a" text-color-dark="#e0e0e0"><\/hans-footer>`;
+
+      btn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(prompt);
+        } catch (err) {
+          // Fallback for non-secure contexts
+          const ta = document.createElement('textarea');
+          ta.value = prompt;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+          btn.textContent = 'Copy prompt';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    })();
+  </script>
 
 </body>
 </html>

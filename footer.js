@@ -5,7 +5,7 @@
  */
 class HansFooter extends HTMLElement {
   static get observedAttributes() {
-    return ['github-url', 'logo', 'padding'];
+    return ['github-url', 'logo', 'padding', 'text-color', 'text-color-light', 'text-color-dark'];
   }
 
   constructor() {
@@ -18,7 +18,7 @@ class HansFooter extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if ((name === 'github-url' || name === 'logo' || name === 'padding') && oldValue !== newValue) {
+    if (HansFooter.observedAttributes.includes(name) && oldValue !== newValue) {
       this.render();
     }
   }
@@ -50,6 +50,21 @@ class HansFooter extends HTMLElement {
     const profileUrl = baseUrl + 'hans-profile-small.jpg';
     const githubUrl = this.getAttribute('github-url');
 
+    // Resolve text color mode: auto (blend with backdrop) vs. static color.
+    const baseColor = this.sanitizeColor(this.getAttribute('text-color'));
+    const lightColor = this.sanitizeColor(this.getAttribute('text-color-light')) || baseColor;
+    const darkColor = this.sanitizeColor(this.getAttribute('text-color-dark')) || baseColor;
+    const isAuto = !lightColor && !darkColor;
+    // In auto mode the color is pure white and `mix-blend-mode: difference` inverts it
+    // against whatever the parent lineage paints, guaranteeing contrast for free.
+    const colorCss = isAuto
+      ? `--hans-footer-color: #ffffff;`
+      : `--hans-footer-color: ${lightColor || darkColor};`;
+    const darkColorCss = (!isAuto && darkColor && darkColor !== lightColor)
+      ? `@media (prefers-color-scheme: dark) { :host { --hans-footer-color: ${darkColor}; } }`
+      : '';
+    const blendCss = isAuto ? 'mix-blend-mode: difference;' : '';
+
     const githubHtml = githubUrl
       ? `<span class="github-section"><span class="sep">|</span> <span class="github-text-part">source on </span><a href="${this.escapeHtml(githubUrl)}" target="_blank" rel="noopener noreferrer" class="github-link">github</a></span>`
       : '';
@@ -72,10 +87,14 @@ class HansFooter extends HTMLElement {
         :host {
           display: block;
           margin-top: auto;
-          min-height: 76px; /* Reserve height to prevent Cumulative Layout Shift */
-          --hans-footer-color: #ffffff;
+          /* Reserve height to prevent Cumulative Layout Shift.
+             With padding="none" the footer is much shorter, so don't reserve space it won't use. */
+          min-height: ${noPadding ? '0' : '76px'};
+          ${colorCss}
         }
-        
+
+        ${darkColorCss}
+
         .footer {
           padding: 2rem 1rem calc(6px + var(--safe-bottom, 0px));
           display: flex;
@@ -111,7 +130,7 @@ class HansFooter extends HTMLElement {
           height: 24px;
           opacity: 0.4;
           fill: var(--hans-footer-color);
-          mix-blend-mode: difference;
+          ${blendCss}
         }
 
         .profile-pic {
@@ -134,7 +153,7 @@ class HansFooter extends HTMLElement {
           color: var(--hans-footer-color);
           margin: 0;
           text-align: center;
-          mix-blend-mode: difference;
+          ${blendCss}
         }
 
         /* Set default opacity of 0.5 on the spans and links inside the text line */
@@ -213,6 +232,17 @@ class HansFooter extends HTMLElement {
         </div>
       </footer>
     `;
+  }
+
+  /**
+   * Allow only characters that can appear in a CSS color value, so an attribute
+   * can never break out of the declaration it is injected into.
+   * Returns '' for missing/invalid values.
+   */
+  sanitizeColor(value) {
+    if (!value) return '';
+    const trimmed = value.trim();
+    return /^[#a-zA-Z0-9(),.%\/ -]+$/.test(trimmed) ? trimmed : '';
   }
 
   escapeHtml(str) {
